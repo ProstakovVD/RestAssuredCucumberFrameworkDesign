@@ -1,43 +1,19 @@
 package stepDefinitions;
 
-import java.io.File;
-import java.io.IOException;
-
-import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriverException;
-
-import io.cucumber.java.After;
-import io.cucumber.java.AfterStep;
-import io.cucumber.java.Scenario;
-import utils.TestContextSetup;
+import io.cucumber.java.Before;
 
 public class Hooks {
 
-	TestContextSetup testContextSetup;
+	APIStepDefinitions sd = new APIStepDefinitions();
 	
-	public Hooks(TestContextSetup testContextSetup) {
+	@Before("@DeletePlace")
+	public void beforeScenarion() throws Throwable {
 		
-		this.testContextSetup=testContextSetup;
-		
-	}
-	
-	@After
-	public void AfterScenario() throws IOException {
-		
-		testContextSetup.testBase.WebDriverManager().quit();
-		
-	}
-	
-	@AfterStep
-	public void AddScreensoht(Scenario scenario) throws WebDriverException, IOException {
-		
-		if(scenario.isFailed()) {
+		if(APIStepDefinitions.id==null) {
 			
-			File sourcePath= ((TakesScreenshot)testContextSetup.testBase.WebDriverManager()).getScreenshotAs(OutputType.FILE);
-			byte[] fileContent= FileUtils.readFileToByteArray(sourcePath);
-			scenario.attach(fileContent, "image/png", "image");
+			sd.add_place_payload_with_("test1", "test2", "test3");
+			sd.user_is_calling_with_http_request("AddPlaceAPI", "POST");
+			sd.verify_placeid_created_maps_to_using("test1", "GetPlaceAPI");
 			
 		}
 		

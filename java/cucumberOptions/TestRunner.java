@@ -9,12 +9,11 @@ import io.cucumber.junit.CucumberOptions;
 
 @CucumberOptions(
 		
-		plugin= {"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"
-				,"pretty","html:reports/cucumber.html","json:reports/cucumber.json"}
+		plugin= {"pretty","html:reports/cucumber.html","json:reports/cucumber.json"}
 		
 		,features="src/test/resources/features"
 		,glue={"stepDefinitions"}
-	//,tags ="@DeletePlace"
+	//,tags =""
 		,monochrome = true
 		,dryRun = false
 
